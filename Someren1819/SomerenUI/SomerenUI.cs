@@ -62,9 +62,9 @@ namespace SomerenUI
                 listViewStudents.Columns.Add("Student number");
                 listViewStudents.Columns[0].Width = 100;
                 listViewStudents.Columns.Add("First Name");
-                listViewStudents.Columns[1].Width = 110;
+                listViewStudents.Columns[1].Width = 125;
                 listViewStudents.Columns.Add("Last Name");
-                listViewStudents.Columns[2].Width = 110;
+                listViewStudents.Columns[2].Width = 125;
 
                 foreach (SomerenModel.Student s in studentList)
                 {
@@ -78,16 +78,14 @@ namespace SomerenUI
             }
             else if (panelName == "Teachers")
             {
+                //hiding the dashboard
                 pnl_Dashboard.Hide();
                 img_Dashboard.Hide();
-                //pnl_Students.Hide();
 
-                //Program.ShowTeachers().Show();
-                //this.pnl_Students.Controls.Clear();
+                //show teachers
                 lbl_Students.Text = "Teachers";
-                // show students
                 pnl_Students.Show();
-                //this.pnl_Students.Controls.Add(Program.ShowTeachers());
+
                 // fill the Teachers listview within the Teachers panel with a list of lecturers
                 SomerenLogic.Lecturers_Service lecService = new SomerenLogic.Lecturers_Service();
                 List<Teacher> lecturersList = lecService.GetLecturers();
@@ -97,18 +95,16 @@ namespace SomerenUI
 
                 //Adding columns
                 listViewStudents.View = View.Details;
-                listViewStudents.Columns.Add("Id", -2, HorizontalAlignment.Center);
-                listViewStudents.Columns[0].Width = 25;
-                listViewStudents.Columns.Add("Name", -2, HorizontalAlignment.Center);
-                listViewStudents.Columns[1].Width = 100;
+                listViewStudents.Columns.Add("Teacher Number");
+                listViewStudents.Columns[0].Width = 100;
+                listViewStudents.Columns.Add("Name");
+                listViewStudents.Columns[1].Width = 125;
 
                 foreach (SomerenModel.Teacher s in lecturersList)
                 {
                     ListViewItem li = new ListViewItem(s.Number.ToString());
-                    //li.SubItems.Add(s.Number.ToString());
                     li.SubItems.Add(s.Name.ToString());
                     listViewStudents.Items.Add(li);
-                    //   listViewLecturers.Items.Add(li);
                 }
             }
             else if (panelName == "Rooms")
@@ -116,7 +112,6 @@ namespace SomerenUI
                 // hide all other panels
                 pnl_Dashboard.Hide();
                 img_Dashboard.Hide();
-                //pnl_Students.Hide();
                 
 
                 //show rooms
@@ -124,28 +119,39 @@ namespace SomerenUI
                 lbl_Students.Text = "Rooms     ";
 
 
-                // fill the students listview within the students panel with a list of students
+                //filling the roomList a list of rooms
                 SomerenLogic.Room_Service roomService = new SomerenLogic.Room_Service();
                 List<Room> roomList = roomService.GetRooms();
 
-                // clear the listview before filling it again
+                //clearing listView
                 listViewStudents.Clear();
 
                 //add columns and allign
                 listViewStudents.Columns.Add("Room Number");
                 listViewStudents.Columns[0].Width = 100;
                 listViewStudents.Columns.Add("Type");
-                listViewStudents.Columns[1].Width = 110;
+                listViewStudents.Columns[1].Width = 125;
                 listViewStudents.Columns.Add("Capacity");
-                listViewStudents.Columns[2].Width = 110;
+                listViewStudents.Columns[2].Width = 125;
 
                 foreach (SomerenModel.Room s in roomList)
                 {
 
                     ListViewItem li = new ListViewItem(s.Number.ToString());
-                    li.SubItems.Add(s.Type.ToString());
+                    if (s.Type == true)
+                    {
+                        li.SubItems.Add("teacher");
+                    }
+                    else
+                    {
+                        li.SubItems.Add("student");
+                    }
+                    
                     li.SubItems.Add(s.Capacity.ToString());
                     listViewStudents.Items.Add(li);
+
+                    //li.SubItems.Add(s.Type.ToString());
+                    //saved for potential later use
                 }
 
             }
@@ -153,7 +159,7 @@ namespace SomerenUI
 
         private void dashboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           //
+           
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
